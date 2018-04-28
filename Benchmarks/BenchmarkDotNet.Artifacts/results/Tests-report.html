@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>Tests</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.10.14, OS=Windows 10.0.16299.371 (1709/FallCreatorsUpdate/Redstone3)
+Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical cores
+Frequency=2742185 Hz, Resolution=364.6727 ns, Timer=TSC
+.NET Core SDK=2.1.300-preview2-008533
+  [Host]     : .NET Core 2.1.0-preview2-26406-04 (CoreCLR 4.6.26406.07, CoreFX 4.6.26406.04), 64bit RyuJIT
+  Job-EWGMZT : .NET Core 2.1.0-preview2-26406-04 (CoreCLR 4.6.26406.07, CoreFX 4.6.26406.04), 64bit RyuJIT
+</code></pre>
+<pre><code>LaunchCount=100  
+</code></pre>
+
+<table>
+<thead><tr><th>         Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th>
+</tr>
+</thead><tbody><tr><td>ByteArray</td><td>842.9 us</td><td>2.148 us</td><td>36.32 us</td><td>838.8 us</td><td>4</td>
+</tr><tr><td>ByteArrayActionResult</td><td>753.1 us</td><td>1.531 us</td><td>25.01 us</td><td>751.2 us</td><td>1</td>
+</tr><tr><td>Csv</td><td>757.4 us</td><td>1.646 us</td><td>28.11 us</td><td>753.6 us</td><td>2</td>
+</tr><tr><td>JilJsonActionResult</td><td>773.1 us</td><td>1.636 us</td><td>28.47 us</td><td>769.4 us</td><td>3</td>
+</tr><tr><td>JilJsonFormatter</td><td>845.7 us</td><td>1.815 us</td><td>29.86 us</td><td>843.0 us</td><td>5</td>
+</tr><tr><td>JsonDefault</td><td>856.8 us</td><td>1.882 us</td><td>30.53 us</td><td>854.1 us</td><td>6</td>
+</tr></tbody></table>
+</body>
+</html>
