@@ -46,7 +46,7 @@ namespace Benchmarks
     {
         public static void Main(string[] args)
         {
-            //var summary = BenchmarkRunner.Run<Tests>();
+            var summary = BenchmarkRunner.Run<Tests>();
             var dataTable = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, "BenchmarkDotNet.Artifacts", "results", "Tests-report-github.md"));
             var resultSummary = GetResultSummary(dataTable).Split(Environment.NewLine);
             foreach (var line in resultSummary) Console.WriteLine(line);
