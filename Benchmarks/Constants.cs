@@ -9,6 +9,7 @@ namespace Benchmarks
         public const string ByteArrayActionResultRoute = "/api/bytes-actionresult";
         public const string CsvRoute = "/api/csv";
         public const string JilJsonActionResultRoute = "/api/json-actionresult";
+        public const string JilJsonActionResultNoNullsRoute = "/api/json-actionresult-no-nulls";
         public const string JilJsonFormatterRoute = "/api/json-formatter";
         public const string JsonDefaultRoute = "/api/json-default";
 

@@ -18,20 +18,21 @@ Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical co
 Frequency=2742185 Hz, Resolution=364.6727 ns, Timer=TSC
 .NET Core SDK=2.1.300-preview2-008533
   [Host]     : .NET Core 2.1.0-preview2-26406-04 (CoreCLR 4.6.26406.07, CoreFX 4.6.26406.04), 64bit RyuJIT
-  Job-EWGMZT : .NET Core 2.1.0-preview2-26406-04 (CoreCLR 4.6.26406.07, CoreFX 4.6.26406.04), 64bit RyuJIT
+  Job-HVAAJX : .NET Core 2.1.0-preview2-26406-04 (CoreCLR 4.6.26406.07, CoreFX 4.6.26406.04), 64bit RyuJIT
 </code></pre>
-<pre><code>LaunchCount=100  
+<pre><code>LaunchCount=25  
 </code></pre>
 
 <table>
-<thead><tr><th>         Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th>
+<thead><tr><th>              Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th>
 </tr>
-</thead><tbody><tr><td>ByteArray</td><td>842.9 us</td><td>2.148 us</td><td>36.32 us</td><td>838.8 us</td><td>4</td>
-</tr><tr><td>ByteArrayActionResult</td><td>753.1 us</td><td>1.531 us</td><td>25.01 us</td><td>751.2 us</td><td>1</td>
-</tr><tr><td>Csv</td><td>757.4 us</td><td>1.646 us</td><td>28.11 us</td><td>753.6 us</td><td>2</td>
-</tr><tr><td>JilJsonActionResult</td><td>773.1 us</td><td>1.636 us</td><td>28.47 us</td><td>769.4 us</td><td>3</td>
-</tr><tr><td>JilJsonFormatter</td><td>845.7 us</td><td>1.815 us</td><td>29.86 us</td><td>843.0 us</td><td>5</td>
-</tr><tr><td>JsonDefault</td><td>856.8 us</td><td>1.882 us</td><td>30.53 us</td><td>854.1 us</td><td>6</td>
+</thead><tbody><tr><td>ByteArray</td><td>924.1 us</td><td>4.344 us</td><td>35.79 us</td><td>919.8 us</td><td>4</td>
+</tr><tr><td>ByteArrayActionResult</td><td>817.8 us</td><td>3.402 us</td><td>28.05 us</td><td>815.7 us</td><td>1</td>
+</tr><tr><td>Csv</td><td>826.7 us</td><td>3.611 us</td><td>29.77 us</td><td>822.6 us</td><td>2</td>
+</tr><tr><td>JilJsonActionResult</td><td>840.6 us</td><td>3.579 us</td><td>30.92 us</td><td>837.2 us</td><td>3</td>
+</tr><tr><td>JilJsonActionResultNoNulls</td><td>840.2 us</td><td>3.517 us</td><td>28.78 us</td><td>835.9 us</td><td>3</td>
+</tr><tr><td>JilJsonFormatter</td><td>924.1 us</td><td>3.894 us</td><td>31.49 us</td><td>920.8 us</td><td>4</td>
+</tr><tr><td>JsonDefault</td><td>932.0 us</td><td>4.035 us</td><td>34.40 us</td><td>928.3 us</td><td>5</td>
 </tr></tbody></table>
 </body>
 </html>

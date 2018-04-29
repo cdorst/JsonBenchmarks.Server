@@ -13,42 +13,49 @@ using static Benchmarks.Constants;
 
 namespace Benchmarks
 {
-    [SimpleJob(100)]
+    [SimpleJob(25)]
     [RPlotExporter, RankColumn]
     public class Tests
     {
         [Benchmark]
         public async Task<HttpResponseMessage> ByteArray()
-            => await Server.GetAsync(ByteArrayRoute);
+            => await Test(ByteArrayRoute);
 
         [Benchmark]
         public async Task<HttpResponseMessage> ByteArrayActionResult()
-            => await Server.GetAsync(ByteArrayActionResultRoute);
+            => await Test(ByteArrayActionResultRoute);
 
         [Benchmark]
         public async Task<HttpResponseMessage> Csv()
-            => await Server.GetAsync(CsvRoute);
+            => await Test(CsvRoute);
 
         [Benchmark]
         public async Task<HttpResponseMessage> JilJsonActionResult()
-            => await Server.GetAsync(JilJsonActionResultRoute);
+            => await Test(JilJsonActionResultRoute);
+
+        [Benchmark]
+        public async Task<HttpResponseMessage> JilJsonActionResultNoNulls()
+            => await Test(JilJsonActionResultNoNullsRoute);
 
         [Benchmark]
         public async Task<HttpResponseMessage> JilJsonFormatter()
-            => await Server.GetAsync(JilJsonFormatterRoute);
+            => await Test(JilJsonFormatterRoute);
 
         [Benchmark]
         public async Task<HttpResponseMessage> JsonDefault()
-            => await Server.GetAsync(JsonDefaultRoute);
+            => await Test(JsonDefaultRoute);
+
+        private async Task<HttpResponseMessage> Test(string route)
+            => await Server.GetAsync(route);
     }
 
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var summary = BenchmarkRunner.Run<Tests>();
             var dataTable = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, "BenchmarkDotNet.Artifacts", "results", "Tests-report-github.md"));
-            var resultSummary = GetResultSummary(dataTable).Split(Environment.NewLine);
+            var resultSummary = (await GetResultSummary(dataTable)).Split(Environment.NewLine);
             foreach (var line in resultSummary) Console.WriteLine(line);
             var readme = new StringBuilder()
                 .Append("# ASP.NET Core 2.1 API entity data-serialization benchmarks")
@@ -92,31 +99,56 @@ namespace Benchmarks
             File.WriteAllText("../README.md", readme.ToString());
         }
 
-        private static string GetResultSummary(string[] dataTable)
+        private static async Task<string> GetResultSummary(string[] dataTable)
         {
-            var (apiJsonNetResponseTime, apiJilJsonResponseTime, apiCsvResponseTime, apiBytesResponseTime) = parseApiResponseTimes(dataTable);
+            var (apiJsonNetResponseTime, apiJilJsonResponseTime, apiJilNoNullsResponseTime, apiCsvResponseTime, apiBytesResponseTime) = parseApiResponseTimes(dataTable);
+            var (apiJsonNetContentLength, apiJilJsonContentLength, apiCsvContentLength, apiBytesContentLength) = await testApiResponseContentLengths();
             return new StringBuilder()
                 .AppendLine("### API Response Time")
                 .AppendLine()
                 .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiJilJsonResponseTime, "Jil JSON"))
                 .AppendLine()
+                .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiJilNoNullsResponseTime, "Jil JSON without null values"))
+                .AppendLine()
                 .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiCsvResponseTime, "CSV"))
                 .AppendLine()
                 .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiBytesResponseTime, "byte[]"))
+                .AppendLine()
+                .AppendLine("### API Response Content Length")
+                .AppendLine()
+                .AppendLine(CompareResponseContentLength(apiJsonNetContentLength, apiJilJsonContentLength, "Jil JSON without null values"))
+                .AppendLine()
+                .AppendLine(CompareResponseContentLength(apiJsonNetContentLength, apiCsvContentLength, "CSV"))
+                .AppendLine()
+                .AppendLine(CompareResponseContentLength(apiJsonNetContentLength, apiBytesContentLength, "byte[]"))
+                .AppendLine()
                 .ToString();
         }
+
+        private static string CompareResponseContentLength(long? largeResponseLength, long? smallResponseLength, string label)
+            => $"{label} content length is {(d(largeResponseLength) / d(smallResponseLength)).ToString("N1")}x smaller (contains {(d(smallResponseLength) / d(largeResponseLength)).ToString("p")} as many bytes) than default JSON response";
+
+        private static decimal d(long? number) => Decimal.Parse(number?.ToString() ?? "0");
 
         private static string CompareResponseTime(decimal slowResponseTime, decimal fastResponseTime, string label)
             => $"{label} endpoint responds {(slowResponseTime / fastResponseTime - 1).ToString("p")} faster than default JsonFormatter endpoint";
 
-        private static (decimal apiJsonNetResponseTime, decimal apiJilJsonResponseTime, decimal apiCsvResponseTime, decimal apiBytesResponseTime) parseApiResponseTimes(string[] dataTable)
+        private static (decimal apiJsonNetResponseTime, decimal apiJilJsonResponseTime, decimal apiJilNoNullsResponseTime, decimal apiCsvResponseTime, decimal apiBytesResponseTime) parseApiResponseTimes(string[] dataTable)
             => (
             parseResponseTime(dataTable, nameof(Tests.JsonDefault)),
             parseResponseTime(dataTable, nameof(Tests.JilJsonActionResult)),
+            parseResponseTime(dataTable, nameof(Tests.JilJsonActionResultNoNulls)),
             parseResponseTime(dataTable, nameof(Tests.Csv)),
             parseResponseTime(dataTable, nameof(Tests.ByteArrayActionResult)));
 
         private static decimal parseResponseTime(string[] dataTable, string method)
             => decimal.Parse(dataTable.First(line => line.Contains(method)).Split('|').Skip(2).First().Replace(",", "").Replace("ns", "").Replace("us", "").Replace("ms", "").Trim());
+
+        private static async Task<(long? apiJsonNetContentLength, long? apiJilJsonContentLength, long? apiCsvContentLength, long? apiBytesContentLength)> testApiResponseContentLengths()
+            => (
+            await ContentLengthTests.JsonDefault(),
+            await ContentLengthTests.JilJsonActionResultNoNulls(),
+            await ContentLengthTests.Csv(),
+            await ContentLengthTests.ByteArrayActionResult());
     }
 }
