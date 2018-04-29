@@ -55,11 +55,11 @@ byte[] endpoint responds 13.96% faster than default JsonFormatter endpoint
 
 ### API Response Content Length
 
-Jil JSON without null values content length is 1.6x smaller (contains 63.16% as many bytes) than default JSON response
+Jil JSON without null values content length is 1.6x smaller (contains 63.16% as many bytes; 36.84% fewer bytes) than default JSON response
 
-CSV content length is 7.6x smaller (contains 13.16% as many bytes) than default JSON response
+CSV content length is 7.6x smaller (contains 13.16% as many bytes; 86.84% fewer bytes) than default JSON response
 
-byte[] content length is 14.3x smaller (contains 7.02% as many bytes) than default JSON response
+byte[] content length is 14.3x smaller (contains 7.02% as many bytes; 92.98% fewer bytes) than default JSON response
 
 
 ## Conclusion

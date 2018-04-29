@@ -53,7 +53,7 @@ namespace Benchmarks
     {
         public static async Task Main(string[] args)
         {
-            var summary = BenchmarkRunner.Run<Tests>();
+            //var summary = BenchmarkRunner.Run<Tests>();
             var dataTable = File.ReadAllLines(Path.Combine(Environment.CurrentDirectory, "BenchmarkDotNet.Artifacts", "results", "Tests-report-github.md"));
             var resultSummary = (await GetResultSummary(dataTable)).Split(Environment.NewLine);
             foreach (var line in resultSummary) Console.WriteLine(line);
@@ -126,7 +126,11 @@ namespace Benchmarks
         }
 
         private static string CompareResponseContentLength(long? largeResponseLength, long? smallResponseLength, string label)
-            => $"{label} content length is {(d(largeResponseLength) / d(smallResponseLength)).ToString("N1")}x smaller (contains {(d(smallResponseLength) / d(largeResponseLength)).ToString("p")} as many bytes) than default JSON response";
+        {
+            var large = d(largeResponseLength);
+            var small = d(smallResponseLength);
+            return $"{label} content length is {(large / small).ToString("N1")}x smaller (contains {(small / large).ToString("p")} as many bytes; {((large - small) / large).ToString("p")} fewer bytes) than default JSON response";
+        }
 
         private static decimal d(long? number) => Decimal.Parse(number?.ToString() ?? "0");
 
