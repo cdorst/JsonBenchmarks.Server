@@ -50,17 +50,17 @@ LaunchCount=100
 
 ### API Response Time
 
-In-memory ASP.NET Core web server Jil JSON endpoint responds 10.83% faster than default JsonFormatter endpoint
+Jil JSON endpoint responds 10.83% faster than default JsonFormatter endpoint
 
-In-memory ASP.NET Core web server CSV endpoint responds 13.12% faster than default JsonFormatter endpoint
+CSV endpoint responds 13.12% faster than default JsonFormatter endpoint
 
-In-memory ASP.NET Core web server byte[] endpoint responds 13.77% faster than default JsonFormatter endpoint
+byte[] endpoint responds 13.77% faster than default JsonFormatter endpoint
 
 ## Conclusion
 
 byte[] block-copy serialization outperformed other methods in terms of data-size, serialization runtime, and API request-response runtime.
 
-The resultant Data Table indicates that the in-memory ASP.NET Core server is less performant in handling object results (with or without a Formatter attribute) than when handling IActionResults
+The resultant Data Table indicates that the ASP.NET Core server is less performant in handling object results (with or without a Formatter attribute) than when handling IActionResults
 
 ## Future Research
 

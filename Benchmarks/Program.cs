@@ -89,7 +89,7 @@ namespace Benchmarks
                 .AppendLine()
                 .AppendLine("byte[] block-copy serialization outperformed other methods in terms of data-size, serialization runtime, and API request-response runtime.")
                 .AppendLine()
-                .AppendLine("The resultant Data Table indicates that the in-memory ASP.NET Core server is less performant in handling object results (with or without a Formatter attribute) than when handling IActionResults")
+                .AppendLine("The resultant Data Table indicates that the ASP.NET Core server is less performant in handling object results (with or without a Formatter attribute) than when handling IActionResults")
                 .AppendLine()
                 .AppendLine("## Future Research")
                 .AppendLine()
@@ -113,7 +113,7 @@ namespace Benchmarks
         }
 
         private static string CompareResponseTime(decimal slowResponseTime, decimal fastResponseTime, string label)
-            => $"In-memory ASP.NET Core web server {label} endpoint responds {(slowResponseTime / fastResponseTime - 1).ToString("p")} faster than default JsonFormatter endpoint";
+            => $"{label} endpoint responds {(slowResponseTime / fastResponseTime - 1).ToString("p")} faster than default JsonFormatter endpoint";
 
         private static (decimal apiJsonNetResponseTime, decimal apiJilJsonResponseTime, decimal apiCsvResponseTime, decimal apiBytesResponseTime) parseApiResponseTimes(string[] dataTable)
             => (
