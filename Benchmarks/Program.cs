@@ -71,13 +71,7 @@ namespace Benchmarks
                 .AppendLine()
                 .AppendLine("## Hypothesis")
                 .AppendLine()
-                .AppendLine("`Jil` is expected to be more performant than `Newtonsoft.Json` based on the [github.com/aspnet/benchmarks](https://github.com/aspnet/benchmarks) work")
-                .AppendLine()
-                .AppendLine("`StringBuilder` is expected to perform well given the benchmarking published in [this blog post](https://blogs.msdn.microsoft.com/dotnet/2018/04/18/performance-improvements-in-net-core-2-1/).")
-                .AppendLine()
-                .AppendLine("CSV should perform much better than JSON since it is schema-less.")
-                .AppendLine()
-                .AppendLine("Byte-array block copy should perform even better than CSV since it is also schema-less and contains less data")
+                .AppendLine("Based on the [github.com/cdorst/JsonBenchmarks](https://github.com/cdorst/JsonBenchmarks) work, performance is expected to rank in descending order: byte[], CSV, JSON; IActionResult, object-result")
                 .AppendLine()
                 .AppendLine("## Results")
                 .AppendLine();
@@ -87,7 +81,7 @@ namespace Benchmarks
             readme
                 .AppendLine("## Conclusion")
                 .AppendLine()
-                .AppendLine("byte[] block-copy serialization outperformed other methods in terms of data-size, serialization runtime, and API request-response runtime.")
+                .AppendLine("byte[]-serialized IActionResult outperformed other methods in terms of data-size, serialization runtime, and API server request-response runtime.")
                 .AppendLine()
                 .AppendLine("The resultant Data Table indicates that the ASP.NET Core server is less performant in handling object results (with or without a Formatter attribute) than when handling IActionResults")
                 .AppendLine()

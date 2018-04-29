@@ -17,13 +17,7 @@ Jil IActionResult, Jil Formatter, and Newtonsoft (default) JSON performance is c
 
 ## Hypothesis
 
-`Jil` is expected to be more performant than `Newtonsoft.Json` based on the [github.com/aspnet/benchmarks](https://github.com/aspnet/benchmarks) work
-
-`StringBuilder` is expected to perform well given the benchmarking published in [this blog post](https://blogs.msdn.microsoft.com/dotnet/2018/04/18/performance-improvements-in-net-core-2-1/).
-
-CSV should perform much better than JSON since it is schema-less.
-
-Byte-array block copy should perform even better than CSV since it is also schema-less and contains less data
+Based on the [github.com/cdorst/JsonBenchmarks](https://github.com/cdorst/JsonBenchmarks) work, performance is expected to rank in descending order: byte[], CSV, JSON; IActionResult, object-result
 
 ## Results
 
@@ -58,7 +52,7 @@ byte[] endpoint responds 13.77% faster than default JsonFormatter endpoint
 
 ## Conclusion
 
-byte[] block-copy serialization outperformed other methods in terms of data-size, serialization runtime, and API request-response runtime.
+byte[]-serialized IActionResult outperformed other methods in terms of data-size, serialization runtime, and API server request-response runtime.
 
 The resultant Data Table indicates that the ASP.NET Core server is less performant in handling object results (with or without a Formatter attribute) than when handling IActionResults
 
