@@ -4,6 +4,7 @@ using static Jil.JSON;
 using static Microsoft.AspNetCore.Http.StatusCodes;
 using static Server.Internals.ActionResults.ByteOffsetConstant;
 using static Server.Internals.ActionResults.ContentTypeConstants;
+using static Server.Internals.ActionResults.JilOptionsConstants;
 using static System.Text.Encoding;
 
 namespace Server.Internals.ActionResults
@@ -15,7 +16,7 @@ namespace Server.Internals.ActionResults
 
         public JsonActionResult(object @object)
         {
-            _payload = UTF8.GetBytes(Serialize(@object));
+            _payload = UTF8.GetBytes(Serialize(@object, JilOptions));
             _payloadLength = _payload.Length;
         }
 
