@@ -34,10 +34,21 @@ namespace Server.Controllers
         public Entity JsonDefault()
             => Entity.Constant;
 
+        [HttpGet("json-default-actionresult")]
+        [Produces(JSON)]
+        public ActionResult<Entity> JsonDefaultActionResult()
+            => Entity.Constant;
+
         [HttpGet("json-formatter")]
         [JilFormatter]
         [Produces(JSON)]
         public Entity JsonJilFormatter()
+            => Entity.Constant;
+
+        [HttpGet("json-formatter-actionresult")]
+        [JilFormatter]
+        [Produces(JSON)]
+        public ActionResult<Entity> JsonJilFormatterActionResult()
             => Entity.Constant;
     }
 }

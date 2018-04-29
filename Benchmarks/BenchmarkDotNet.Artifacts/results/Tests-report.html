@@ -15,24 +15,26 @@
 <pre><code>
 BenchmarkDotNet=v0.10.14, OS=Windows 10.0.16299.371 (1709/FallCreatorsUpdate/Redstone3)
 Intel Core i7-7700HQ CPU 2.80GHz (Kaby Lake), 1 CPU, 8 logical and 4 physical cores
-Frequency=2742185 Hz, Resolution=364.6727 ns, Timer=TSC
+Frequency=2742186 Hz, Resolution=364.6726 ns, Timer=TSC
 .NET Core SDK=2.1.300-preview2-008533
   [Host]     : .NET Core 2.1.0-preview2-26406-04 (CoreCLR 4.6.26406.07, CoreFX 4.6.26406.04), 64bit RyuJIT
-  Job-HVAAJX : .NET Core 2.1.0-preview2-26406-04 (CoreCLR 4.6.26406.07, CoreFX 4.6.26406.04), 64bit RyuJIT
+  Job-LGAMQP : .NET Core 2.1.0-preview2-26406-04 (CoreCLR 4.6.26406.07, CoreFX 4.6.26406.04), 64bit RyuJIT
 </code></pre>
 <pre><code>LaunchCount=25  
 </code></pre>
 
 <table>
-<thead><tr><th>              Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th>
+<thead><tr><th>                Method</th><th>Mean</th><th>Error</th><th>StdDev</th><th>Median</th><th>Rank</th>
 </tr>
-</thead><tbody><tr><td>ByteArray</td><td>924.1 us</td><td>4.344 us</td><td>35.79 us</td><td>919.8 us</td><td>4</td>
-</tr><tr><td>ByteArrayActionResult</td><td>817.8 us</td><td>3.402 us</td><td>28.05 us</td><td>815.7 us</td><td>1</td>
-</tr><tr><td>Csv</td><td>826.7 us</td><td>3.611 us</td><td>29.77 us</td><td>822.6 us</td><td>2</td>
-</tr><tr><td>JilJsonActionResult</td><td>840.6 us</td><td>3.579 us</td><td>30.92 us</td><td>837.2 us</td><td>3</td>
-</tr><tr><td>JilJsonActionResultNoNulls</td><td>840.2 us</td><td>3.517 us</td><td>28.78 us</td><td>835.9 us</td><td>3</td>
-</tr><tr><td>JilJsonFormatter</td><td>924.1 us</td><td>3.894 us</td><td>31.49 us</td><td>920.8 us</td><td>4</td>
-</tr><tr><td>JsonDefault</td><td>932.0 us</td><td>4.035 us</td><td>34.40 us</td><td>928.3 us</td><td>5</td>
+</thead><tbody><tr><td>ByteArray</td><td>806.4 us</td><td>3.452 us</td><td>30.01 us</td><td>802.2 us</td><td>4</td>
+</tr><tr><td>ByteArrayActionResult</td><td>737.4 us</td><td>4.212 us</td><td>42.36 us</td><td>728.8 us</td><td>1</td>
+</tr><tr><td>Csv</td><td>741.9 us</td><td>3.979 us</td><td>39.01 us</td><td>735.1 us</td><td>2</td>
+</tr><tr><td>JilJsonActionResult</td><td>744.1 us</td><td>3.340 us</td><td>29.08 us</td><td>741.6 us</td><td>2</td>
+</tr><tr><td>JilJsonActionResultNoNulls</td><td>778.1 us</td><td>3.307 us</td><td>35.13 us</td><td>774.6 us</td><td>3</td>
+</tr><tr><td>JilJsonFormatter</td><td>883.2 us</td><td>4.305 us</td><td>46.66 us</td><td>874.8 us</td><td>5</td>
+</tr><tr><td>JilJsonFormatterActionResult</td><td>878.6 us</td><td>10.594 us</td><td>106.59 us</td><td>847.2 us</td><td>5</td>
+</tr><tr><td>JsonDefault</td><td>880.4 us</td><td>4.977 us</td><td>47.25 us</td><td>876.8 us</td><td>5</td>
+</tr><tr><td>JsonDefaultActionResult</td><td>890.5 us</td><td>4.200 us</td><td>43.85 us</td><td>885.0 us</td><td>6</td>
 </tr></tbody></table>
 </body>
 </html>

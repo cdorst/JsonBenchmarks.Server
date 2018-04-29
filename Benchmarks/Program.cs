@@ -42,8 +42,16 @@ namespace Benchmarks
             => await Test(JilJsonFormatterRoute);
 
         [Benchmark]
+        public async Task<HttpResponseMessage> JilJsonFormatterActionResult()
+            => await Test(JilJsonFormatterActionResultRoute);
+
+        [Benchmark]
         public async Task<HttpResponseMessage> JsonDefault()
             => await Test(JsonDefaultRoute);
+
+        [Benchmark]
+        public async Task<HttpResponseMessage> JsonDefaultActionResult()
+            => await Test(JsonDefaultActionResultRoute);
 
         private async Task<HttpResponseMessage> Test(string route)
             => await Server.GetAsync(route);
@@ -74,11 +82,11 @@ namespace Benchmarks
                 .AppendLine("- CSV")
                 .AppendLine("- byte[]")
                 .AppendLine()
-                .AppendLine("Jil IActionResult, Jil Formatter, and Newtonsoft (default) JSON performance is compared. byte[] object-result vs. IActionResult is also compared.")
+                .AppendLine("Jil IActionResult, Jil Formatter, and Newtonsoft (default) JSON performance is compared. byte[] object-result vs. IActionResult performance is also compared.")
                 .AppendLine()
                 .AppendLine("## Hypothesis")
                 .AppendLine()
-                .AppendLine("Based on the [github.com/cdorst/JsonBenchmarks](https://github.com/cdorst/JsonBenchmarks) work, performance is expected to rank in descending order: byte[], CSV, JSON; IActionResult, object-result")
+                .AppendLine("Based on the [github.com/cdorst/JsonBenchmarks](https://github.com/cdorst/JsonBenchmarks) work, performance is expected to rank in following order: byte[], CSV, JSON; IActionResult, object-result")
                 .AppendLine()
                 .AppendLine("## Results")
                 .AppendLine();
@@ -88,31 +96,33 @@ namespace Benchmarks
             readme
                 .AppendLine("## Conclusion")
                 .AppendLine()
-                .AppendLine("byte[]-serialized IActionResult outperformed other methods in terms of data-size, serialization runtime, and API server request-response runtime.")
+                .AppendLine("Entity byte[]-serialized IActionResult API endpoint outperforms other methods in terms of data-size, serialization runtime (per [github.com/cdorst/JsonBenchmarks](https://github.com/cdorst/JsonBenchmarks) results), and API server request-response runtime.")
                 .AppendLine()
-                .AppendLine("Results indicate that ASP.NET Core is less performant when handling object results than when handling IActionResults")
+                .AppendLine("Results indicate that ASP.NET Core is less performant when handling object & ActionResult<T> results than when handling custom ActionResult types")
                 .AppendLine()
                 .AppendLine("## Future Research")
                 .AppendLine()
                 .AppendLine("Benchmark client-server scenario (w/ result de-serialization) using strongly-typed C# and TypeScript client SDKs")
+                .AppendLine()
+                .AppendLine("Benchmark TechEmpower `message = 'Hello, world!` scenario with Jil vs. JSON.NET and anonymous object vs. strongly-typed object vs. ActionResult<T>")
                 .AppendLine();
             File.WriteAllText("../README.md", readme.ToString());
         }
 
         private static async Task<string> GetResultSummary(string[] dataTable)
         {
-            var (apiJsonNetResponseTime, apiJilJsonResponseTime, apiJilNoNullsResponseTime, apiCsvResponseTime, apiBytesResponseTime) = parseApiResponseTimes(dataTable);
+            var (apiJsonNetResponseTime, apiJilJsonResponseTime, apiJilNoNullsResponseTime, apiCsvResponseTime, apiBytesResponseTime, apiJsonNetActionResultResponseTime, apiJilFormatterResponseTime, apiJilFormatterActionResultResponseTime) = parseApiResponseTimes(dataTable);
             var (apiJsonNetContentLength, apiJilJsonContentLength, apiCsvContentLength, apiBytesContentLength) = await testApiResponseContentLengths();
             return new StringBuilder()
                 .AppendLine("### API Response Time")
                 .AppendLine()
-                .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiJilJsonResponseTime, "Jil JSON"))
+                .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiJilJsonResponseTime, "Jil `JsonActionResult`"))
                 .AppendLine()
-                .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiJilNoNullsResponseTime, "Jil JSON without null values"))
+                .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiJilNoNullsResponseTime, "Jil `JsonWithoutNullsactionResult`"))
                 .AppendLine()
-                .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiCsvResponseTime, "CSV"))
+                .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiCsvResponseTime, "`CsvActionResult`"))
                 .AppendLine()
-                .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiBytesResponseTime, "byte[]"))
+                .AppendLine(CompareResponseTime(apiJsonNetResponseTime, apiBytesResponseTime, "`ByteArrayActionResult`"))
                 .AppendLine()
                 .AppendLine("### API Response Content Length")
                 .AppendLine()
@@ -137,13 +147,16 @@ namespace Benchmarks
         private static string CompareResponseTime(decimal slowResponseTime, decimal fastResponseTime, string label)
             => $"{label} endpoint responds {(slowResponseTime / fastResponseTime - 1).ToString("p")} faster than default JsonFormatter endpoint";
 
-        private static (decimal apiJsonNetResponseTime, decimal apiJilJsonResponseTime, decimal apiJilNoNullsResponseTime, decimal apiCsvResponseTime, decimal apiBytesResponseTime) parseApiResponseTimes(string[] dataTable)
+        private static (decimal apiJsonNetResponseTime, decimal apiJilJsonResponseTime, decimal apiJilNoNullsResponseTime, decimal apiCsvResponseTime, decimal apiBytesResponseTime, decimal apiJsonNetActionResultResponseTime, decimal apiJilFormatterResponseTime, decimal apiJilFormatterActionResultResponseTime) parseApiResponseTimes(string[] dataTable)
             => (
             parseResponseTime(dataTable, nameof(Tests.JsonDefault)),
             parseResponseTime(dataTable, nameof(Tests.JilJsonActionResult)),
             parseResponseTime(dataTable, nameof(Tests.JilJsonActionResultNoNulls)),
             parseResponseTime(dataTable, nameof(Tests.Csv)),
-            parseResponseTime(dataTable, nameof(Tests.ByteArrayActionResult)));
+            parseResponseTime(dataTable, nameof(Tests.ByteArrayActionResult)),
+            parseResponseTime(dataTable, nameof(Tests.JsonDefaultActionResult)),
+            parseResponseTime(dataTable, nameof(Tests.JilJsonFormatter)),
+            parseResponseTime(dataTable, nameof(Tests.JilJsonFormatterActionResult)));
 
         private static decimal parseResponseTime(string[] dataTable, string method)
             => decimal.Parse(dataTable.First(line => line.Contains(method)).Split('|').Skip(2).First().Replace(",", "").Replace("ns", "").Replace("us", "").Replace("ms", "").Trim());
