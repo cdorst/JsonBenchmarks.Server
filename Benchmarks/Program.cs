@@ -90,7 +90,7 @@ namespace Benchmarks
                 .AppendLine()
                 .AppendLine("byte[]-serialized IActionResult outperformed other methods in terms of data-size, serialization runtime, and API server request-response runtime.")
                 .AppendLine()
-                .AppendLine("The resultant Data Table indicates that the ASP.NET Core server is less performant in handling object results (with or without a Formatter attribute) than when handling IActionResults")
+                .AppendLine("Results indicate that ASP.NET Core is less performant when handling object results than when handling IActionResults")
                 .AppendLine()
                 .AppendLine("## Future Research")
                 .AppendLine()
@@ -127,12 +127,12 @@ namespace Benchmarks
 
         private static string CompareResponseContentLength(long? largeResponseLength, long? smallResponseLength, string label)
         {
-            var large = d(largeResponseLength);
-            var small = d(smallResponseLength);
+            var large = getDecimal(largeResponseLength);
+            var small = getDecimal(smallResponseLength);
             return $"{label} content length is {(large / small).ToString("N1")}x smaller (contains {(small / large).ToString("p")} as many bytes; {((large - small) / large).ToString("p")} fewer bytes) than default JSON response";
         }
 
-        private static decimal d(long? number) => Decimal.Parse(number?.ToString() ?? "0");
+        private static decimal getDecimal(long? number) => Decimal.Parse(number?.ToString() ?? "0");
 
         private static string CompareResponseTime(decimal slowResponseTime, decimal fastResponseTime, string label)
             => $"{label} endpoint responds {(slowResponseTime / fastResponseTime - 1).ToString("p")} faster than default JsonFormatter endpoint";

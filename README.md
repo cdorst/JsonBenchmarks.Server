@@ -66,7 +66,7 @@ byte[] content length is 14.3x smaller (contains 7.02% as many bytes; 92.98% few
 
 byte[]-serialized IActionResult outperformed other methods in terms of data-size, serialization runtime, and API server request-response runtime.
 
-The resultant Data Table indicates that the ASP.NET Core server is less performant in handling object results (with or without a Formatter attribute) than when handling IActionResults
+Results indicate that ASP.NET Core is less performant when handling object results than when handling IActionResults
 
 ## Future Research
 
