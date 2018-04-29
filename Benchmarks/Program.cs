@@ -60,7 +60,7 @@ namespace Benchmarks
             var readme = new StringBuilder()
                 .Append("# ASP.NET Core 2.1 API entity data-serialization benchmarks")
                 .AppendLine()
-                .AppendLine("Run `./run.ps1` at the repository root to repeat the experiment")
+                .AppendLine("Run `./run.ps1` or `./run.sh` at the repository root to repeat the experiment")
                 .AppendLine()
                 .AppendLine("## Question")
                 .AppendLine()

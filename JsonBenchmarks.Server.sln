@@ -7,12 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "Server\Server.csp
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{931FB8DA-5522-4E6E-B446-A4A29CE34DF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{1E462F0E-7C33-4D77-882A-2A7885185F94}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmarks", "Benchmarks\Benchmarks.csproj", "{1E462F0E-7C33-4D77-882A-2A7885185F94}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{19199A22-1983-487F-9ECD-E1FC89496212}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
 		run.ps1 = run.ps1
+		run.sh = run.sh
 	EndProjectSection
 EndProject
 Global
