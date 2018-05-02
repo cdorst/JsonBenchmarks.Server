@@ -1,5 +1,5 @@
 docker-compose up --build --detach
 cd Benchmarks
 dotnet run -c Release
-docker-compose down --rmi all
 cd ..
+docker-compose down --rmi all
